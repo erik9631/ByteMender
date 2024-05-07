@@ -24,8 +24,8 @@ unsigned char *memory::CreateDetour(unsigned char *startAddress, unsigned char *
     return startAddress + jmpPatchSize;
 }
 
-void memory::CreatePatch(unsigned char *address, const datatypes::Patch &patch) {
-    auto* continueAddress = CreateDetour(address, patch.patch);
-    auto** patchReturnAddr = reinterpret_cast<unsigned char**> (patch.patch + patch.size - 8);
+void memory::PatchMemory(unsigned char *address, const datatypes::Patch &patch) {
+    auto* continueAddress = CreateDetour(address, patch.patchAddr);
+    auto** patchReturnAddr = reinterpret_cast<unsigned char**> (patch.patchAddr + patch.size - 8);
     *patchReturnAddr = continueAddress;
 }

@@ -4,12 +4,14 @@
 
 #ifndef PATCH_H
 #define PATCH_H
+#include <memory>
 #include <string>
 
 namespace datatypes {
     struct Patch {
-        unsigned char* patch = nullptr;
+        std::unique_ptr<unsigned char[]> patchAddr = nullptr;
         size_t size = 0;
+        explicit Patch(size_t size);
     };
 
     Patch LoadPatch(const std::wstring& path);

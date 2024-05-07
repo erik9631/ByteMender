@@ -10,7 +10,7 @@ namespace memory {
     unsigned char *CreateDetour(unsigned char *startAddress, unsigned char *newAddress);
 
     /// Last 4 or 8 bytes of the patch should be 0x90 (NOP) and will be replaced with the return address
-    void CreatePatch(unsigned char *address, const datatypes::Patch& patch);
+    void PatchMemory(unsigned char *address, const datatypes::Patch& patch);
 }
 
 
