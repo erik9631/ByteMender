@@ -20,13 +20,19 @@ set(memory
 
 set(memory_headers
         memory/Memory.h
-        memory/Profiler.h
+)
+
+set(utils)
+set(utils_headers
+    utils/Utils.h
+    utils/Profiler.h
 )
 
 set(all_headers
         ${datatypes_headers}
         ${algorithms_headers}
         ${memory_headers}
+        ${utils_headers}
 )
 
 set(all_sources
@@ -34,6 +40,7 @@ set(all_sources
         ${datatypes}
         ${algorithms}
         ${memory}
+        ${utils}
         main.cpp
 )
 

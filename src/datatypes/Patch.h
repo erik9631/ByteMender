@@ -8,9 +8,11 @@
 
 namespace datatypes {
     struct Patch {
-        unsigned char* patch;
-        size_t size;
+        unsigned char* patch = nullptr;
+        size_t size = 0;
     };
+
+    Patch LoadPatch(const std::wstring& path);
 
 
 }
