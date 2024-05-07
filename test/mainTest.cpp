@@ -3,7 +3,7 @@
 //
 #include <catch_amalgamated.hpp>
 #include <fstream>
-#include <utils/Profiler.h>
+#include <memory/Profiler.h>
 #include <algorithms/KmpSearcher.h>
 
 template <typename T, size_t N>

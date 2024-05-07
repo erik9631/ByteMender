@@ -103,6 +103,7 @@ namespace algorithms{
             return results;
         }
 
+        // Todo use SIMD
         std::vector<KmpResult<T>> Search(const T* data, size_t size) {
             const T* originalData = data;
             const T* patternPivot = pattern;

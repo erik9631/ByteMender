@@ -14,26 +14,26 @@ set(datatypes_headers
         datatypes/Patch.h
 )
 
-set(utils
-        utils/utils.cpp
+set(memory
+        memory/Memory.cpp
 )
 
-set(utils_headers
-        utils/utils.h
-        utils/Profiler.h
+set(memory_headers
+        memory/Memory.h
+        memory/Profiler.h
 )
 
 set(all_headers
         ${datatypes_headers}
         ${algorithms_headers}
-        ${utils_headers}
+        ${memory_headers}
 )
 
 set(all_sources
         ${all_headers}
         ${datatypes}
         ${algorithms}
-        ${utils}
+        ${memory}
         main.cpp
 )
 

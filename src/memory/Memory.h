@@ -7,7 +7,7 @@
 #include <string>
 #include "datatypes/Patch.h"
 
-namespace utils {
+namespace memory {
     void* FindPattern(const unsigned char* pattern);
 
     void CreateDetour(void* startAddress, void* newAddress);
@@ -16,8 +16,6 @@ namespace utils {
     void CreatePatch(void* address, void* returnAddress, const datatypes::Patch& patch);
 
     datatypes::Patch LoadPatch(const std::wstring& path);
-
-    unsigned highestPowerof2(unsigned x);
 }
 
 
