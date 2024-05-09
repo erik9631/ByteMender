@@ -25,7 +25,7 @@ unsigned char *memory::CreateDetour(unsigned char *startAddress, unsigned char *
 }
 
 void memory::PatchMemory(unsigned char *address, const datatypes::Patch &patch) {
-    auto* continueAddress = CreateDetour(address, patch.patchAddr);
-    auto** patchReturnAddr = reinterpret_cast<unsigned char**> (patch.patchAddr + patch.size - 8);
+    auto* continueAddress = CreateDetour(address, patch.patchAddr.get());
+    auto** patchReturnAddr = reinterpret_cast<unsigned char**> (patch.patchAddr.get() + patch.size - 8);
     *patchReturnAddr = continueAddress;
 }

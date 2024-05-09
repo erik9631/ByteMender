@@ -21,7 +21,7 @@ datatypes::Patch datatypes::LoadPatch(const std::wstring &path) {
         throw std::runtime_error("Failed to open file");
     }
 
-    auto size = file.tellg();
+    size_t size = file.tellg();
     file.seekg(0, std::ios::beg);
     Patch patch{size};
 
