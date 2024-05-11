@@ -7,7 +7,7 @@
 
 #include "proxies/setup.h"
 
-namespace proxies::dxdi {
+namespace proxies::dxgi {
     #pragma optimize("", off)
     
     void DUMMY0()
