@@ -189,6 +189,25 @@ TEST_CASE("KMP search test 2", "[kmpSearch2]") {
 
 }
 
+TEST_CASE("KMP wildcard search test", "[kmpWildCardSearch]") {
+    unsigned char searchData[] = {1, 7, 1, 1, 4, 7, 4, 7, 8, 7, 4, 54, 45, 124, 41, 74, 41, 8, 90, 81, 74, 85, 41, 4, 7,};
+    unsigned char pattern [] = {1, 1, 4, 7, 0, 0, 0, 7, 4, 54, 45};
+
+    unsigned char expectedResult [] = {1, 1, 4, 7, 4, 7, 8, 7, 4, 54, 45};
+
+    auto searcher = algorithms::KmpSearcher{pattern, ArraySize(pattern)};
+
+    auto results = searcher.Search(searchData, ArraySize(searchData));
+
+    REQUIRE(results.size() == 1);
+    auto result = results.at(0);
+
+    for (int i = 0; i < ArraySize(pattern); ++i) {
+        REQUIRE(result.data[i] == expectedResult[i]);
+    }
+
+}
+
 TEST_CASE("KMP binnary file search test", "[kmpBinnary]") {
     unsigned char pattern[] = {0x01, 0x82, 0x2F, 0xFF, 0x74, 0xF2};
 

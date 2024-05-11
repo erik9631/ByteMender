@@ -13,9 +13,34 @@
 
 namespace algorithms{
 
+    template <typename U>
+    U GetDefaultWildCard() {
+        if constexpr (std::is_same_v<U, char>) {
+            return 0;
+        }
+        if constexpr (std::is_same_v<U, wchar_t>) {
+            return 0;
+        }
+        if constexpr (std::is_same_v<U, char16_t>) {
+            return 0;
+        }
+        if constexpr (std::is_same_v<U, char32_t>) {
+            return 0;
+        }
+        if constexpr (std::is_same_v<U, unsigned char>) {
+            return 0;
+        }
+        if constexpr (std::is_same_v<U, unsigned short>) {
+            return 0;
+        }
+        return std::numeric_limits<U>::min();
+
+    }
+
     template <typename T>
     class KmpSearcher {
         unsigned short* patternIndexTable;
+        T wildCard;
 
         void BuildFailureTable() {
             const T* lastMatch = pattern;
@@ -25,7 +50,7 @@ namespace algorithms{
 
             while(pivot != patternEnd) {
 
-                if (*pivot != *lastMatch)
+                if ( (*pivot != *lastMatch) && (*pivot != wildCard))
                     lastMatch = pattern;
                 else {
                     ++lastMatch;
@@ -43,7 +68,7 @@ namespace algorithms{
             const T* dataEnd = data + size;
             int failureTableOffset = 0;
             while(data != dataEnd) {
-                if (*data == *patternPivot) {
+                if (*data == *patternPivot || *patternPivot == wildCard){
                     ++data;
                     ++patternPivot;
                     ++failureTableOffset;
@@ -68,7 +93,11 @@ namespace algorithms{
     public:
         const T* pattern = nullptr;
         const size_t& patternSize;
-        explicit KmpSearcher(const T* pattern, const size_t& patternSize): pattern(pattern), patternSize(patternSize) {
+        explicit KmpSearcher(const T* pattern, const size_t& patternSize, T wildCard = GetDefaultWildCard<T>()):
+            pattern(pattern),
+            patternSize(patternSize),
+            wildCard(wildCard)
+        {
             patternIndexTable = new unsigned short[this->patternSize]();
             BuildFailureTable();
         }
@@ -103,7 +132,7 @@ namespace algorithms{
             return results;
         }
 
-        // Todo use SIMD
+
         std::vector<KmpResult<T>> Search(const T* data, size_t size) {
             const T* originalData = data;
             const T* patternPivot = pattern;
@@ -112,7 +141,7 @@ namespace algorithms{
             std::vector<KmpResult<T>> results;
             int failureTableOffset = 0;
             while(data != dataEnd) {
-                if (*data == *patternPivot) {
+                if (*data == *patternPivot || *patternPivot == wildCard) {
                     ++data;
                     ++patternPivot;
                     ++failureTableOffset;

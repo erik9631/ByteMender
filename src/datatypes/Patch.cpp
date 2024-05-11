@@ -28,6 +28,5 @@ datatypes::Patch datatypes::LoadPatch(const std::wstring &path) {
 
     file.read(reinterpret_cast<char *>(patch.patchAddr), size);
     patch.size = size;
-
     return patch;
 }
