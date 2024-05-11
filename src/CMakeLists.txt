@@ -48,6 +48,7 @@ set(all_sources
         ${utils}
         ${proxies}
         main.cpp
+        proxies/setup.h
 )
 
 add_library(ByteMender STATIC ${all_sources})

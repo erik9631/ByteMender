@@ -6,23 +6,11 @@
 #define VERSION_H
 #define WIN32_LEAN_AND_MEAN
 #include <cstdint>
-#include <Windows.h>
-#include "memory/Memory.h"
+#include "proxies/setup.h"
+
 namespace proxies::version {
-    struct Export
-    {
-        void* addr;
-        const char* name;
-    };
 
     #pragma optimize("", off)
-    static volatile uint16_t volatileWord;
-    static void CALL_DUMMY() { volatileWord = 0; }
-
-    // Proxy header generated for version.dll (64 bit)
-    static_assert(sizeof(void*) == 8, "The proxied DLL must match the architecture of the proxy DLL");
-    inline HMODULE hOriginalDLL = LoadLibraryA("C:/Windows/System32/version.dll");
-
     // #1: GetFileVersionInfoA
     void DUMMY0()
     {
@@ -170,43 +158,28 @@ namespace proxies::version {
 
     #pragma optimize("", on)
 
-    static Export exports[] = {
-        {DUMMY0, "GetFileVersionInfoA"},
-        {DUMMY1, "GetFileVersionInfoByHandle"},
-        {DUMMY2, "GetFileVersionInfoExA"},
-        {DUMMY3, "GetFileVersionInfoExW"},
-        {DUMMY4, "GetFileVersionInfoSizeA"},
-        {DUMMY5, "GetFileVersionInfoSizeExA"},
-        {DUMMY6, "GetFileVersionInfoSizeExW"},
-        {DUMMY7, "GetFileVersionInfoSizeW"},
-        {DUMMY8, "GetFileVersionInfoW"},
-        {DUMMY9, "VerFindFileA"},
-        {DUMMY10, "VerFindFileW"},
-        {DUMMY11, "VerInstallFileA"},
-        {DUMMY12, "VerInstallFileW"},
-        {DUMMY13, "VerLanguageNameA"},
-        {DUMMY14, "VerLanguageNameW"},
-        {DUMMY15, "VerQueryValueA"},
-        {DUMMY16, "VerQueryValueW"}
+    static ExportDir versionExport{
+        {
+            {DUMMY0, "GetFileVersionInfoA"},
+            {DUMMY1, "GetFileVersionInfoByHandle"},
+            {DUMMY2, "GetFileVersionInfoExA"},
+            {DUMMY3, "GetFileVersionInfoExW"},
+            {DUMMY4, "GetFileVersionInfoSizeA"},
+            {DUMMY5, "GetFileVersionInfoSizeExA"},
+            {DUMMY6, "GetFileVersionInfoSizeExW"},
+            {DUMMY7, "GetFileVersionInfoSizeW"},
+            {DUMMY8, "GetFileVersionInfoW"},
+            {DUMMY9, "VerFindFileA"},
+            {DUMMY10, "VerFindFileW"},
+            {DUMMY11, "VerInstallFileA"},
+            {DUMMY12, "VerInstallFileW"},
+            {DUMMY13, "VerLanguageNameA"},
+            {DUMMY14, "VerLanguageNameW"},
+            {DUMMY15, "VerQueryValueA"},
+            {DUMMY16, "VerQueryValueW"}
+        },
+        LoadLibraryA("C:/Windows/System32/version.dll")
     };
-
-    static void Setup() {
-
-        for (auto& entry : exports) {
-            auto funcAddr = static_cast<unsigned char*>(entry.addr);
-            #ifdef _DEBUG
-            if (*funcAddr == 0xE9) //If we have a jmp instruction and we have debug, then we in the symbol table
-            {
-                int jmpOffset = *reinterpret_cast<int*>(funcAddr + 1); // Skip the jmp, take the jmp offset
-                funcAddr += jmpOffset + 5; // Add the offset and the size of the jmp instruction
-            }
-            #endif
-
-            auto jmpAddr = reinterpret_cast<unsigned char *>(GetProcAddress(hOriginalDLL, entry.name));
-            memory::CreateDetour(funcAddr, jmpAddr);
-        }
-		CloseHandle(hOriginalDLL);
-    }
 
 }
 #endif //VERSION_H
