@@ -4,7 +4,7 @@ set(testSrc
 )
 
 add_executable(tests ${testSrc})
-target_link_libraries(tests PRIVATE ByteMenderLib)
+target_link_libraries(tests PRIVATE ByteMender)
 target_link_libraries(tests PRIVATE catch_amalgamated)
 
 # Get the directory path of the currently running executable

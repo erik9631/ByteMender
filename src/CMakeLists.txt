@@ -28,11 +28,15 @@ set(utils_headers
     utils/Profiler.h
 )
 
+set(proxies_headers
+        proxies/version.h
+)
 set(all_headers
         ${datatypes_headers}
         ${algorithms_headers}
         ${memory_headers}
         ${utils_headers}
+        ${proxies_headers}
 )
 
 set(all_sources
@@ -41,17 +45,26 @@ set(all_sources
         ${algorithms}
         ${memory}
         ${utils}
+        ${proxies}
         main.cpp
 )
 
-
-add_executable(ByteMender ${all_sources} )
+add_library(ByteMender STATIC ${all_sources})
 target_link_libraries(ByteMender PUBLIC concurrent_queue)
+target_include_directories(ByteMender PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(ByteMenderLib STATIC ${all_sources})
-target_link_libraries(ByteMenderLib PUBLIC concurrent_queue)
 
-target_include_directories(ByteMenderLib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+# Get the directory path of the currently running executable
+get_filename_component(EXECUTABLE_DIR "${CMAKE_CURRENT_BINARY_DIR}/headers" ABSOLUTE)
 
+if(NOT EXISTS "${EXECUTABLE_DIR}")
+    file(MAKE_DIRECTORY "${EXECUTABLE_DIR}")
+endif()
+
+# Install header files while preserving the subdirectory structure
+foreach(header_file ${all_headers})
+    get_filename_component(header_dir "${header_file}" DIRECTORY)
+    install(FILES "${header_file}"
+            DESTINATION "${EXECUTABLE_DIR}/${header_dir}")
+endforeach()
