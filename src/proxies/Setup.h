@@ -7,8 +7,8 @@
 #include <Windows.h>
 #include "memory/Memory.h"
 namespace proxies {
-    static volatile uint16_t volatileWord;
-    static void CALL_DUMMY() { volatileWord = 0; }
+    static volatile unsigned long long function8byteFill;
+    static void CALL_DUMMY() { function8byteFill = 0; }
     // Proxy header generated for version.dll (64 bit)
     static_assert(sizeof(void*) == 8, "The proxied DLL must match the architecture of the proxy DLL");
 
