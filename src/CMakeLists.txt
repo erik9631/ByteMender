@@ -30,6 +30,7 @@ set(utils_headers
 
 set(proxies_headers
         proxies/version.h
+        proxies/dxgi.h
 )
 set(all_headers
         ${datatypes_headers}

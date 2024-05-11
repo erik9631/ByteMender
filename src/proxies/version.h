@@ -17,12 +17,11 @@ namespace proxies::version {
 
     #pragma optimize("", off)
     static volatile uint16_t volatileWord;
-    static __declspec(noinline) void CALL_DUMMY() { volatileWord = 0; }
+    static void CALL_DUMMY() { volatileWord = 0; }
 
-        // Proxy header generated for version.dll (64 bit)
+    // Proxy header generated for version.dll (64 bit)
     static_assert(sizeof(void*) == 8, "The proxied DLL must match the architecture of the proxy DLL");
     inline HMODULE hOriginalDLL = LoadLibraryA("C:/Windows/System32/version.dll");
-    static volatile long long fillerVariable = 0;
 
     // #1: GetFileVersionInfoA
     void DUMMY0()
