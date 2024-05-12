@@ -11,6 +11,9 @@ namespace byteMender::utils {
     template <typename T, size_t N>
     constexpr size_t ArraySize(T (&)[N]) { return N; }
     void IterateThreads(const std::function<void(HANDLE)>& threadAction);
+
+    LONG VectoredExceptionHandler(PEXCEPTION_POINTERS pExceptionInfo);
+    void SetupHardwareBreakpoints(HANDLE thread, const unsigned char* addr);
     void SuspendAllThreads();
     void ResumeAllThreads();
 }
