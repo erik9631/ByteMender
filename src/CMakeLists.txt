@@ -31,7 +31,6 @@ set(utils_headers
 set(proxies_headers
         proxies/version.h
         proxies/dxgi.h
-        proxies/Setup.h
 )
 set(all_headers
         ${datatypes_headers}
@@ -49,7 +48,6 @@ set(all_sources
         ${utils}
         ${proxies}
         main.cpp
-        proxies/setup.h
 )
 
 add_library(ByteMender STATIC ${all_sources})
