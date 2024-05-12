@@ -22,7 +22,8 @@ set(memory_headers
         memory/Memory.h
 )
 
-set(utils)
+set(utils
+        utils/Utils.cpp)
 set(utils_headers
     utils/Utils.h
     utils/Profiler.h
