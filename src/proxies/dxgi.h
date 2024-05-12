@@ -6,7 +6,7 @@
 #define DXGI_H
 
 // Begin automatically forwarding exports to the original dxgi.dll functions
-namespace proxies::dxgi {
+namespace byteMender::proxies::dxgi {
     #pragma comment(linker, "/export:ApplyCompatResolutionQuirking=dxgi_o.ApplyCompatResolutionQuirking,@1")
     #pragma comment(linker, "/export:CompatString=dxgi_o.CompatString,@2")
     #pragma comment(linker, "/export:CompatValue=dxgi_o.CompatValue,@3")

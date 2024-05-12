@@ -5,7 +5,7 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-namespace proxies::version {
+namespace byteMender::proxies::version {
     #pragma comment(linker, "/export:GetFileVersionInfoA=version_o.GetFileVersionInfoA")
     #pragma comment(linker, "/export:GetFileVersionInfoByHandle=version_o.GetFileVersionInfoByHandle")
     #pragma comment(linker, "/export:GetFileVersionInfoExA=version_o.GetFileVersionInfoExA")

@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 #include "utils/Utils.h"
-using namespace memory;
+using namespace byteMender;
 
 /**
  * Creates a detour at the startAddress that jumps to newAddress
@@ -19,7 +19,7 @@ unsigned char* memory::CreateDetour(unsigned char *startAddress, unsigned char *
     auto** jmpAddressParam = reinterpret_cast<unsigned char**>(jmpPatch + 6);
     *jmpAddressParam = newAddress;
 
-    auto jmpPatchSize = ArraySize(jmpPatch);
+    auto jmpPatchSize = byteMender::utils::ArraySize(jmpPatch);
 
     DWORD oldProtect;
     if (!VirtualProtect(startAddress, jmpPatchSize, PAGE_EXECUTE_READWRITE, &oldProtect)) {

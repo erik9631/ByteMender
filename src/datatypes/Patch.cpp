@@ -5,6 +5,7 @@
 #include "Patch.h"
 #include <fstream>
 #include <windows.h>
+using namespace byteMender;
 
 datatypes::Patch::Patch(size_t size) {
     unsigned char* executableMemory = static_cast<unsigned char*>(VirtualAlloc(nullptr, size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE));

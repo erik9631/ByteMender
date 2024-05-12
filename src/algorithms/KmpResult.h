@@ -5,7 +5,7 @@
 #ifndef KMPRESULT_H
 #define KMPRESULT_H
 
-namespace algorithms {
+namespace byteMender::algorithms {
 
 template <typename T>
 struct KmpResult {

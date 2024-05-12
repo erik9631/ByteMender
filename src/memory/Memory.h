@@ -6,7 +6,7 @@
 #define MEMORY_H
 #include "datatypes/Patch.h"
 
-namespace memory {
+namespace byteMender::memory {
     unsigned char *CreateDetour(unsigned char *startAddress, unsigned char *newAddress);
 
     /// Last 4 or 8 bytes of the patch should be 0x00 and will be replaced with the return address

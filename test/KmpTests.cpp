@@ -6,6 +6,7 @@
 #include "../src/utils/Profiler.h"
 #include "algorithms/KmpSearcher.h"
 #include "utils/Utils.h"
+using namespace byteMender;
 
 TEST_CASE("kmp failure function test 1", "[kmpFailureFunction1]") {
     SECTION("Equal string test") {
@@ -168,8 +169,8 @@ TEST_CASE("KMP search test 2", "[kmpSearch2]") {
     SECTION("Equal int test complex") {
         int pattern[] = {1,5,9,1,5,9,181,1,5,181,1,5};
         int data[] = {1,5,9,2,7,8,4,5, 7, 8, 1,8,1,1,5,9,1,5,9,181,1,5,181,1,5,154,854,84};
-        algorithms::KmpSearcher<int> searcher{static_cast<const int*>(pattern), ArraySize(pattern)};
-        const auto results = searcher.Search(data, ArraySize(data));
+        algorithms::KmpSearcher<int> searcher{static_cast<const int*>(pattern), utils::ArraySize(pattern)};
+        const auto results = searcher.Search(data, utils::ArraySize(data));
 
         auto result = results.at(0);
         REQUIRE(result.data[0] == 1);
@@ -195,14 +196,14 @@ TEST_CASE("KMP wildcard search test", "[kmpWildCardSearch]") {
 
     unsigned char expectedResult [] = {1, 1, 4, 7, 4, 7, 8, 7, 4, 54, 45};
 
-    auto searcher = algorithms::KmpSearcher{pattern, ArraySize(pattern)};
+    auto searcher = algorithms::KmpSearcher{pattern, utils::ArraySize(pattern)};
 
-    auto results = searcher.Search(searchData, ArraySize(searchData));
+    auto results = searcher.Search(searchData, utils::ArraySize(searchData));
 
     REQUIRE(results.size() == 1);
     auto result = results.at(0);
 
-    for (int i = 0; i < ArraySize(pattern); ++i) {
+    for (int i = 0; i < utils::ArraySize(pattern); ++i) {
         REQUIRE(result.data[i] == expectedResult[i]);
     }
 
@@ -222,11 +223,11 @@ TEST_CASE("KMP binnary file search test", "[kmpBinnary]") {
         auto* binnaryFileBuffer = new unsigned char[binnaryFileSize];
         binnaryFile.read(reinterpret_cast<char*>(binnaryFileBuffer), binnaryFileSize);
 
-        algorithms::KmpSearcher searcher{pattern, ArraySize(pattern)};
+        algorithms::KmpSearcher searcher{pattern, utils::ArraySize(pattern)};
         const auto results = searcher.Search(binnaryFileBuffer, binnaryFileSize);
         REQUIRE(results.size() == 8);
         for (const auto& result : results) {
-            for (int i = 0; i < ArraySize(pattern); ++i) {
+            for (int i = 0; i < utils::ArraySize(pattern); ++i) {
                 REQUIRE(result.data[i] == pattern[i]);
             }
         }
@@ -252,11 +253,11 @@ TEST_CASE("KMP binnary file search test", "[kmpBinnary]") {
         auto* binnaryFileBuffer = new unsigned char[binnaryFileSize];
         binnaryFile.read(reinterpret_cast<char*>(binnaryFileBuffer), binnaryFileSize);
 
-        algorithms::KmpSearcher searcher{pattern, ArraySize(pattern)};
+        algorithms::KmpSearcher searcher{pattern, utils::ArraySize(pattern)};
         const auto results = searcher.Search(binnaryFileBuffer, binnaryFileSize);
         REQUIRE(results.size() == 12);
         for (const auto& result : results) {
-            for (int i = 0; i < ArraySize(pattern); ++i) {
+            for (int i = 0; i < utils::ArraySize(pattern); ++i) {
                 REQUIRE(result.data[i] == pattern[i]);
             }
         }
@@ -286,12 +287,12 @@ TEST_CASE("KMP binnary file search test", "[kmpBinnary]") {
         auto* binnaryFileBuffer = new unsigned char[binnaryFileSize];
         binnaryFile.read(reinterpret_cast<char*>(binnaryFileBuffer), binnaryFileSize);
 
-        algorithms::KmpSearcher searcher{pattern, ArraySize(pattern)};
-        Profiler profiler{"SerialSearch"};
+        algorithms::KmpSearcher searcher{pattern, utils::ArraySize(pattern)};
+        utils::Profiler profiler{"SerialSearch"};
         const auto results = searcher.Search(binnaryFileBuffer, binnaryFileSize);
         REQUIRE(results.size() == 7);
         for (const auto& result : results) {
-            for (int i = 0; i < ArraySize(pattern); ++i) {
+            for (int i = 0; i < utils::ArraySize(pattern); ++i) {
                 REQUIRE(result.data[i] == pattern[i]);
             }
         }
@@ -314,12 +315,12 @@ TEST_CASE("Parallel KMP binnary file search test", "[kmpBinnaryParallel]") {
         auto* binnaryFileBuffer = new unsigned char[binnaryFileSize];
         binnaryFile.read(reinterpret_cast<char*>(binnaryFileBuffer), binnaryFileSize);
 
-        algorithms::KmpSearcher searcher{pattern, ArraySize(pattern)};
+        algorithms::KmpSearcher searcher{pattern, utils::ArraySize(pattern)};
         auto results = searcher.ParallelSearch(binnaryFileBuffer, binnaryFileSize);
         REQUIRE(results.size_approx()== 8);
         algorithms::KmpResult<unsigned char> result{};
         while (!results.try_dequeue(result)) {
-            for (int i = 0; i < ArraySize(pattern); ++i) {
+            for (int i = 0; i < utils::ArraySize(pattern); ++i) {
                 REQUIRE(result.data[i] == pattern[i]);
             }
         }
@@ -336,13 +337,13 @@ TEST_CASE("Parallel KMP binnary file search test", "[kmpBinnaryParallel]") {
         auto* binnaryFileBuffer = new unsigned char[binnaryFileSize];
         binnaryFile.read(reinterpret_cast<char*>(binnaryFileBuffer), binnaryFileSize);
 
-        algorithms::KmpSearcher searcher{pattern, ArraySize(pattern)};
+        algorithms::KmpSearcher searcher{pattern, utils::ArraySize(pattern)};
         auto results = searcher.ParallelSearch(binnaryFileBuffer, binnaryFileSize);
         REQUIRE(results.size_approx() == 12);
 
         algorithms::KmpResult<unsigned char> result{};
         while (!results.try_dequeue(result)) {
-            for (int i = 0; i < ArraySize(pattern); ++i) {
+            for (int i = 0; i < utils::ArraySize(pattern); ++i) {
                 REQUIRE(result.data[i] == pattern[i]);
             }
         }
@@ -359,14 +360,14 @@ TEST_CASE("Parallel KMP binnary file search test", "[kmpBinnaryParallel]") {
         auto* binnaryFileBuffer = new unsigned char[binnaryFileSize];
         binnaryFile.read(reinterpret_cast<char*>(binnaryFileBuffer), binnaryFileSize);
 
-        algorithms::KmpSearcher searcher{pattern, ArraySize(pattern)};
-        Profiler profiler{"ParallelSearch"};
+        algorithms::KmpSearcher searcher{pattern, utils::ArraySize(pattern)};
+        utils::Profiler profiler{"ParallelSearch"};
         auto results = searcher.ParallelSearch(binnaryFileBuffer, binnaryFileSize);
         REQUIRE(results.size_approx() == 7);
 
         algorithms::KmpResult<unsigned char> result{};
         while (!results.try_dequeue(result)) {
-            for (int i = 0; i < ArraySize(pattern); ++i) {
+            for (int i = 0; i < utils::ArraySize(pattern); ++i) {
                 REQUIRE(result.data[i] == pattern[i]);
             }
         }

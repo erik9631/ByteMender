@@ -7,7 +7,7 @@
 #include <memory>
 #include <string>
 
-namespace datatypes {
+namespace byteMender::datatypes {
     struct Patch {
         unsigned char* patchAddr = nullptr;
         size_t size = 0;

@@ -11,7 +11,7 @@
 #include "concurrentqueue.h"
 #include <future>
 
-namespace algorithms{
+namespace byteMender::algorithms{
 
     template <typename U>
     U GetDefaultWildCard() {

@@ -10,6 +10,7 @@
 
 #include <windows.h>
 #include <psapi.h>
+using namespace byteMender;
 
 int patchableFunctionTest(int iterations, int b) {
     for(int i = 0; i < iterations; i++) {
@@ -52,7 +53,7 @@ TEST_CASE("Basic patch test", "[Patchtest2]") {
     auto startAddress = reinterpret_cast<unsigned char*>(exeInfo.lpBaseOfDll);
     size_t moduleSize = exeInfo.SizeOfImage;
 
-    algorithms::KmpSearcher searcher{pattern, ArraySize(pattern)};
+    algorithms::KmpSearcher searcher{pattern, byteMender::utils::ArraySize(pattern)};
     auto results = searcher.ParallelSearch(startAddress, moduleSize);
     REQUIRE(results.size_approx() == 1);
 
