@@ -9,9 +9,9 @@
 #include "utils/Utils.h"
 using namespace byteMender::utils;
 
-static bool breakpointTriggered = false;
+static bool  breakpointTriggered = false;
 
-static void debuggableFunction() {
+static void _declspec(noinline) debuggableFunction() {
     std::cout << "Debuggable function was called!" << std::endl;
 }
 
