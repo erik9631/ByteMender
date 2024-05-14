@@ -1,11 +1,14 @@
 set(testSrc
         KmpTests.cpp
         MemoryTests.cpp
+        BreakpointTests.cpp
 )
 
 add_executable(tests ${testSrc})
 target_link_libraries(tests PRIVATE ByteMender)
 target_link_libraries(tests PRIVATE catch_amalgamated)
+
+
 
 # Get the directory path of the currently running executable
 
