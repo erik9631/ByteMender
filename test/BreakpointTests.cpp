@@ -43,7 +43,7 @@ LONG WINAPI testExceptionHandler(PEXCEPTION_POINTERS pExceptionInfo) {
     return EXCEPTION_CONTINUE_SEARCH;
 }
 
-TEST_CASE("Debugger test", "[DebuggerTest]") {
+TEST_CASE("Execution debugger test", "[DebuggerTest]") {
     std::mutex signalMutex;
     std::condition_variable cv;
     bool wasNotified = false;
