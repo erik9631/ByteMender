@@ -16,7 +16,7 @@ static void _declspec(noinline) debuggableFunction() {
     std::cout << "Debuggable function was called!" << std::endl;
 }
 
-LONG WINAPI testExceptionHandler(PEXCEPTION_POINTERS pExceptionInfo) {
+LONG testExceptionHandler(PEXCEPTION_POINTERS pExceptionInfo) {
 
     // Check if it's a single-step exception
     if (pExceptionInfo->ExceptionRecord->ExceptionCode == EXCEPTION_SINGLE_STEP) {
