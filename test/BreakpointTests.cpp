@@ -5,6 +5,7 @@
 #include <condition_variable>
 #include <thread>
 
+#include "utils/Debug.h"
 #include "utils/Profiler.h"
 #include "utils/Utils.h"
 using namespace byteMender::utils;
@@ -53,7 +54,7 @@ TEST_CASE("Execution debugger test", "[DebuggerTest]") {
         SuspendAllThreads();
         IterateThreads([&](HANDLE thread) {
             try {
-                SetupHardwareBreakpoint(thread, reinterpret_cast<unsigned char*>(debuggableFunction));
+                byteMender::debug::SetupHardwareBreakpoint(thread, reinterpret_cast<unsigned char*>(debuggableFunction));
             }
             catch (std::runtime_error& e) {
                 std::cout << e.what() << std::endl;

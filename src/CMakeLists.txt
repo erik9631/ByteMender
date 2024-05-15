@@ -23,10 +23,13 @@ set(memory_headers
 )
 
 set(utils
+        utils/Debug.cpp
         utils/Utils.cpp)
+
 set(utils_headers
     utils/Utils.h
     utils/Profiler.h
+    utils/Debug.h
 )
 
 set(proxies_headers
