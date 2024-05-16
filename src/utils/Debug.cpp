@@ -36,6 +36,20 @@ void byteMender::debug::SetupHardwareBreakpoint(HANDLE thread, unsigned char *ad
         throw std::runtime_error("Failed to get thread context with error: " + std::to_string(GetLastError()));
 }
 
-void byteMender::debug::ClearHardwareBreakpoint(HANDLE thread, void *addr, LONG(*exceptionHandler)(PEXCEPTION_POINTERS),
-    ULONG first) {
+void byteMender::debug::ClearHardwareBreakpoint(HANDLE thread,  unsigned char breakPointNum) {
+    CONTEXT ctx = {};
+    ctx.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS; //This is in/out
+    if(!GetThreadContext(thread, &ctx))
+        throw std::runtime_error("Failed to get thread context with error: " + std::to_string(GetLastError()));
+
+    auto debugRegister = (&ctx.Dr0) + breakPointNum;
+
+    *debugRegister = 0;
+    ctx.Dr7 = 0;
+    ctx.Dr7 &= (0 << (breakPointNum*2));  // Enable L0 (local breakpoint 0)
+    ctx.Dr7 &= (0 << (16+(breakPointNum * 4))); // Set condition to write (01b is for write, and bits 16-17 of DR7 are for DR0 condition)
+    ctx.Dr7 &= (0 << (17+(breakPointNum * 4))); // Set condition to write (01b is for write, and bits 16-17 of DR7 are for DR0 condition)
+    ctx.Dr7 &= (0 << (18+(breakPointNum * 4))); // Set breakpoint len
+    ctx.Dr7 &= (0 << (19+(breakPointNum * 4))); // Set breakpoint len
+
 }

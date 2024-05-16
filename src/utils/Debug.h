@@ -23,7 +23,6 @@ namespace byteMender::debug {
     };
 
     void SetupHardwareBreakpoint(HANDLE thread, unsigned char *addr, unsigned char breakPointNum = 0, Condition condition = EXECUTE, Length len = BYTE);
-    void ClearHardwareBreakpoint(HANDLE thread, void *addr, LONG(*exceptionHandler)(PEXCEPTION_POINTERS), ULONG first = 1);
-}
+    void ClearHardwareBreakpoint(HANDLE thread,  unsigned char breakPointNum);
 
 #endif //DEBUG_H
