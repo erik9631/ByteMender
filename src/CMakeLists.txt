@@ -16,10 +16,12 @@ set(datatypes_headers
 
 set(memory
         memory/Memory.cpp
+        memory/Scanner.cpp
 )
 
 set(memory_headers
         memory/Memory.h
+        memory/Scanner.h
 )
 
 set(utils

@@ -4,10 +4,10 @@
 
 #ifndef DEBUG_H
 #define DEBUG_H
-#include <functional>
 #include <windows.h>
 
-namespace byteMender::debug {
+namespace byteMender::debug
+{
     enum Condition {
         EXECUTE = 0,
         WRITE = 1,
@@ -24,5 +24,6 @@ namespace byteMender::debug {
 
     void SetupHardwareBreakpoint(HANDLE thread, unsigned char *addr, unsigned char breakPointNum = 0, Condition condition = EXECUTE, Length len = BYTE);
     void ClearHardwareBreakpoint(HANDLE thread,  unsigned char breakPointNum);
+}
 
 #endif //DEBUG_H
