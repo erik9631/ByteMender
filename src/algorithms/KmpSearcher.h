@@ -141,8 +141,6 @@ namespace byteMender::algorithms{
             std::vector<KmpResult<T>> results;
             int failureTableOffset = 0;
             while(data != dataEnd) {
-                if(data - originalData == 0x008D8600)
-                    std::cout << "Found breakpoint" << std::endl;
                 if (*data == *patternPivot || *patternPivot == wildCard) {
                     ++data;
                     ++patternPivot;
