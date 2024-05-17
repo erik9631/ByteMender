@@ -13,6 +13,10 @@ datatypes::Patch::Patch(size_t size) {
     this->size = size;
 }
 
+datatypes::Patch::Patch(size_t size, const unsigned char *patchAddr) : Patch(size) {
+    memcpy(this->patchAddr, patchAddr, size);
+}
+
 datatypes::Patch::~Patch() {
     VirtualFree(patchAddr, size, MEM_RELEASE);
 }
