@@ -34,6 +34,7 @@ set(utils_headers
     utils/Utils.h
     utils/Profiler.h
     utils/Debug.h
+        utils/HexTable.h
 )
 
 set(proxies_headers

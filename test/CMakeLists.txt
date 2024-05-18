@@ -4,6 +4,7 @@ set(testSrc
         BreakpointTests.cpp
         HeapTests.cpp
         PatternTests.cpp
+        PatchLoaderTests.cpp
 )
 
 add_executable(tests ${testSrc})
@@ -13,6 +14,7 @@ target_link_libraries(tests PRIVATE catch_amalgamated)
 
 
 # Get the directory path of the currently running executable
+
 
 get_filename_component(EXECUTABLE_DIR "${CMAKE_CURRENT_BINARY_DIR}/files" ABSOLUTE)
 
