@@ -3,6 +3,7 @@ set(testSrc
         MemoryTests.cpp
         BreakpointTests.cpp
         HeapTests.cpp
+        PatternTests.cpp
 )
 
 add_executable(tests ${testSrc})

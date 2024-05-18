@@ -12,6 +12,8 @@ set(datatypes
 
 set(datatypes_headers
         datatypes/Patch.h
+        datatypes/PatchDescriptor.h
+        datatypes/DynArray.h
 )
 
 set(memory
@@ -58,6 +60,7 @@ set(all_sources
 
 add_library(ByteMender STATIC ${all_sources})
 target_link_libraries(ByteMender PUBLIC concurrent_queue)
+target_link_libraries(ByteMender PUBLIC yaml-cpp)
 target_include_directories(ByteMender PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 

@@ -23,7 +23,7 @@ int patchableFunctionTest(int iterations, int b) {
 TEST_CASE("Basic patch load test", "[PatchTest]") {
     datatypes::Patch patch{0};
     try {
-        patch = datatypes::LoadPatch(L"files/operationsFunction.bin");
+        patch = datatypes::LoadPatch("files/operationsFunction.bin");
     }
     catch(std::runtime_error& e) {
         FAIL(e.what());
@@ -39,7 +39,7 @@ TEST_CASE("Basic patch test", "[Patchtest2]") {
     unsigned char pattern[] = {0x89, 0x54, 0x24, 0x10, 0x89, 0x4C, 0x24, 0x08, 0x57, 0x48, 0x83, 0xEC, 0, 0xC7, 0x04, 0x24, 0, 0, 0, 0, 0xEB, 0};
     datatypes::Patch patch{0};
     try {
-        patch = datatypes::LoadPatch(L"files/patchableFunctionTestPatch.bin");
+        patch = datatypes::LoadPatch("files/patchableFunctionTestPatch.bin");
     }
     catch(std::runtime_error& e) {
         FAIL(e.what());

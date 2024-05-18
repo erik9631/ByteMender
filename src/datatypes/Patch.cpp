@@ -7,10 +7,9 @@
 #include <windows.h>
 using namespace byteMender;
 
-datatypes::Patch::Patch(size_t size) {
+datatypes::Patch::Patch(size_t size): size(size)  {
     unsigned char* executableMemory = static_cast<unsigned char*>(VirtualAlloc(nullptr, size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE));
     patchAddr = executableMemory;
-    this->size = size;
 }
 
 datatypes::Patch::Patch(size_t size, const unsigned char *patchAddr) : Patch(size) {
@@ -21,7 +20,7 @@ datatypes::Patch::~Patch() {
     VirtualFree(patchAddr, size, MEM_RELEASE);
 }
 
-datatypes::Patch datatypes::LoadPatch(const std::wstring &path) {
+datatypes::Patch datatypes::LoadPatch(const std::string &path) {
     std::ifstream file(path, std::ios::binary | std::ios::ate);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open file");
@@ -32,6 +31,5 @@ datatypes::Patch datatypes::LoadPatch(const std::wstring &path) {
     Patch patch{size};
 
     file.read(reinterpret_cast<char *>(patch.patchAddr), size);
-    patch.size = size;
     return patch;
 }

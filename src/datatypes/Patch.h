@@ -10,13 +10,13 @@
 namespace byteMender::datatypes {
     struct Patch {
         unsigned char* patchAddr = nullptr;
-        size_t size = 0;
+        size_t size;
         explicit Patch(size_t size);
         explicit Patch(size_t size, const unsigned char* patchAddr);
         ~Patch();
     };
 
-    Patch LoadPatch(const std::wstring& path);
+    Patch LoadPatch(const std::string &path);
 
 
 }

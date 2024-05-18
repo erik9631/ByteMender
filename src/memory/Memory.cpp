@@ -38,7 +38,7 @@ unsigned char* memory::CreateDetour(unsigned char *startAddress, unsigned char *
  *                           0 the execution will continue right after the detour jmp instruction.
  * @param relative if true the continueAddrOffset will be relative to the addr right after the jmp instruction, otherwise it will be an absolute addr
  */
-void memory::PatchMemory(unsigned char *address, const datatypes::Patch &patch, long long continueAddrOffset, bool relative) {
+void memory::PatchMemory(unsigned char *address, const datatypes::Patch &patch, unsigned long long continueAddrOffset, bool relative) {
     unsigned char* continueAddress;
     if (relative)
         continueAddress = CreateDetour(address, patch.patchAddr) + continueAddrOffset;
