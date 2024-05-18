@@ -40,20 +40,27 @@ namespace byteMender::utils {
     template <typename T>
     DynArray<T> PatternToBytes(const std::string& pattern, long long wildCard = 0) {
         hexTable['?'] = wildCard;
-        size_t calculatedSize = (pattern.size()+1) / 3;
+        size_t calculatedSize = (pattern.size() + 1) / ((sizeof(T)*2)+1);
         DynArray<T> parsedArray = DynArray<T>{calculatedSize};
-        for (size_t i = 0, parsedIt = 0; i < pattern.length(); i++) {
-            if (pattern[i] == ' ')
+
+        auto parsedData = parsedArray.data;
+        auto stringData = pattern.data();
+        auto stringDataEnd = stringData + pattern.size();
+
+        for (; stringData != stringDataEnd; ++stringData) {
+            if (*stringData == ' ')
                 continue;
 
-            // We don't shift the last value
-            for (int sizeIt = 0; sizeIt < (sizeof(T)*2) - 1; sizeIt++, i++) {
-                parsedArray[parsedIt] += hexTable[pattern[i]];
-                parsedArray[parsedIt] <<= 4;
+            // -1 cause We don't shift the last value
+            auto sizeEnd = (stringData + sizeof(T)*2)-1;
+            while (stringData != sizeEnd) {
+                *parsedData += hexTable[*stringData];
+                *parsedData <<= 4;
+                stringData++;
             }
             // Add the last value but don't shift it
-            parsedArray[parsedIt] += hexTable[pattern[i]];
-            parsedIt++;
+            *parsedData += hexTable[*stringData];
+            ++parsedData;
         }
         return parsedArray;
     }
