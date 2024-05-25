@@ -4,11 +4,12 @@
 #include "Scanner.h"
 
 #include <iostream>
+#include <tlhelp32.h>
 #include <vector>
 
-std::unique_ptr<std::set<HEAPENTRY32, HeapEntryCompare>> GetHeapList(HANDLE targetProcess) {
-    auto orderedHeapList = std::make_unique<std::set<HEAPENTRY32, HeapEntryCompare>>();
-    std::vector<HEAPENTRY32> heapListCollection;
+std::unique_ptr<std::set<HeapEntry, HeapEntryCompare>> GetHeapList(HANDLE targetProcess) {
+    auto orderedHeapList = std::make_unique<std::set<HeapEntry, HeapEntryCompare>>();
+    std::vector<HeapEntry> heapListCollection;
     HEAPLIST32 hl;
     hl.dwSize = sizeof(HEAPLIST32);
     if(targetProcess == nullptr)
@@ -33,7 +34,12 @@ std::unique_ptr<std::set<HEAPENTRY32, HeapEntryCompare>> GetHeapList(HANDLE targ
         he.dwSize = sizeof(HEAPENTRY32);
         if (Heap32First(&he, processId, hl.th32HeapID)) {
             do {
-                heapListCollection.push_back(he);
+                heapListCollection.push_back({
+                    he.dwAddress,
+                    he.dwBlockSize,
+                    he.dwFlags,
+                    processId,
+                });
                 counter++;
             } while (Heap32Next(&he));
         } else {

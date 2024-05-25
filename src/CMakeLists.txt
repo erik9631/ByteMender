@@ -14,6 +14,7 @@ set(datatypes_headers
         datatypes/Patch.h
         datatypes/PatchDescriptor.h
         datatypes/DynArray.h
+        datatypes/HeapEntry.h
 )
 
 set(memory
