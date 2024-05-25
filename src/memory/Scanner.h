@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <memory>
 #include <windows.h>
 #include <tlhelp32.h>
 #include <set>
@@ -14,6 +15,6 @@ struct HeapEntryCompare {
     }
 };
 
-std::set<HEAPENTRY32, HeapEntryCompare> GetHeapList(HANDLE targetProcess = nullptr);
+std::unique_ptr<std::set<HEAPENTRY32, HeapEntryCompare>> GetHeapList(HANDLE targetProcess = nullptr);
 
 
