@@ -33,7 +33,7 @@ namespace byteMender::algorithms{
         if constexpr (std::is_same_v<U, unsigned short>) {
             return 0;
         }
-        return std::numeric_limits<U>::min();
+        return 0; //std::numeric_limits<U>::min() TODO causes issues for some reason;
 
     }
 
@@ -92,8 +92,8 @@ namespace byteMender::algorithms{
 
     public:
         const T* pattern = nullptr;
-        const size_t& patternSize;
-        explicit KmpSearcher(const T* pattern, const size_t& patternSize, T wildCard = GetDefaultWildCard<T>()):
+        const size_t patternSize;
+        explicit KmpSearcher(const T* pattern, const size_t patternSize, T wildCard = GetDefaultWildCard<T>()):
             pattern(pattern),
             patternSize(patternSize),
             wildCard(wildCard)

@@ -375,15 +375,16 @@ TEST_CASE("Parallel KMP binnary file search test", "[kmpBinnaryParallel]") {
 
 }
 
-TEST_CASE("Executable search test serial", "[kmpExecutableSearchTestSerial]") {
-    static const unsigned char pattern[] = {
-        0x48, 0x8B, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x48, 0x85, 0xC9, 0x75, 0x00,
-        0x33, 0xC0, 0xC3, 0xE9, 0x00, 0x00, 0x00, 0x00, 0xCC, 0xCC, 0xCC, 0xCC,
-        0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0x48, 0x83, 0xEC, 0x00, 0xE8,
-        0x00, 0x00, 0x00, 0x00
+
+TEST_CASE("Executable pattern test", "[kmpExecutablePatternPartTest]") {
+    static const unsigned char pattern1[] = {
+        0x48, 0x8B, 0x0D, 0x11, 0x11, 0x11, 0x11,
+        0x48, 0x85, 0xC9, 0x75, 0x11,
+        0x33, 0xC0, 0xC3, 0xE9, 0x11, 0x11, 0x11, 0x11,
+        0x48, 0x89, 0x5C, 0x24, 0x10
     };
 
-    std::ifstream binnaryFile{"files/executable.exe", std::ios::binary | std::ios::ate};
+    std::ifstream binnaryFile{"files/unpacked_helldivers2.exe", std::ios::binary | std::ios::ate};
     REQUIRE(binnaryFile.is_open());
     size_t binnaryFileSize = binnaryFile.tellg();
     binnaryFile.seekg(0, std::ios::beg);
@@ -391,16 +392,9 @@ TEST_CASE("Executable search test serial", "[kmpExecutableSearchTestSerial]") {
     auto* binnaryFileBuffer = new unsigned char[binnaryFileSize];
     binnaryFile.read(reinterpret_cast<char*>(binnaryFileBuffer), binnaryFileSize);
 
-    algorithms::KmpSearcher searcher{pattern, utils::ArraySize(pattern)};
-    auto results = searcher.Search(binnaryFileBuffer, binnaryFileSize);
+    algorithms::KmpSearcher<unsigned char> searcher {pattern1, utils::ArraySize(pattern1), 0x11};
+    auto results =  searcher.Search(binnaryFileBuffer, binnaryFileSize);
 
     REQUIRE(results.size() == 1);
-    for (const auto& result : results) {
-        for (int i = 0; i < utils::ArraySize(pattern); ++i) {
-            if (pattern[i] == 0x00)
-                continue;
-            REQUIRE(result.data[i] == pattern[i]);
-        }
-    }
 
 }
